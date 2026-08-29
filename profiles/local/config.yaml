@@ -1,0 +1,23 @@
+# Local execution.
+software-deployment-method:
+  - conda
+conda-prefix: .conda
+
+cores: 16
+printshellcmds: true
+rerun-incomplete: true
+keep-going: true
+show-failed-logs: true
+retries: 1
+benchmark-extended: true
+
+default-resources:          # fallback for trivial rules
+  mem_mb: 2000
+  runtime: 30
+
+set-threads:
+  analyze: 4
+
+set-resources:              # tune from benchmarks/ TSVs after a real run
+  prepare: {mem_mb: 2000}
+  analyze: {mem_mb: 8000}

@@ -1,0 +1,47 @@
+executor: slurm
+software-deployment-method:
+  - conda
+conda-prefix: .conda
+
+jobs: 40
+max-jobs-per-second: 5
+
+slurm-efficiency-report: true
+slurm-efficiency-report-path: logs/efficiency
+slurm-efficiency-threshold: 0.8
+
+default-resources:
+  slurm_account: youraccount
+  slurm_partition: 12hours
+  runtime: 60m
+  mem_mb: 4000
+  # slurm_extra: "--exclude=node1,node2"   # e.g. nodes missing a shared mount
+
+set-threads:
+  prepare: 1
+  analyze: 4
+
+set-resources:              # scale mem/runtime by input size and retry attempt
+  prepare:
+    mem_mb: 2000 * attempt
+    runtime: 30m
+  analyze:
+    mem_mb: max(8000, 2 * input.size_mb) * attempt
+    runtime: min(720, max(30, 0.02 * input.size_mb) * attempt)
+
+  # GPU rule pattern (uncomment + adapt for a CUDA rule):
+  #  fit:
+  #    slurm_partition: gpu
+  #    gres: gpu:1
+  #    tasks_per_gpu: 0     # suppress --ntasks-per-gpu (conflicts with cpus-per-task for pytorch)
+  #    mem_mb: 48000 * attempt
+  #    runtime: 1440m
+
+rerun-incomplete: true
+keep-going: true
+show-failed-logs: true
+benchmark-extended: true
+retries: 1
+slurm-requeue: false
+printshellcmds: true
+latency-wait: 60
