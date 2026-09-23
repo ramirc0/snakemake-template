@@ -21,13 +21,13 @@ set-threads:
   prepare: 1
   analyze: 4
 
-set-resources:              # scale mem/runtime by input size and retry attempt
+set-resources:              # tune from benchmarks/ TSVs after a real run
   prepare:
     mem_mb: 2000 * attempt
     runtime: 30m
   analyze:
-    mem_mb: max(8000, 2 * input.size_mb) * attempt
-    runtime: min(720, max(30, 0.02 * input.size_mb) * attempt)
+    mem_mb: 8000 * attempt
+    runtime: 120m
 
   # GPU rule pattern (uncomment + adapt for a CUDA rule):
   #  fit:

@@ -23,7 +23,7 @@ workflow/
   envs/env.yaml          conda env
 profiles/
   local/config.yaml      local execution
-  slurm/config.yaml      SLURM (attempt/input.size_mb-scaled resources)
+  slurm/config.yaml      SLURM (per-rule resources, retried with more memory)
 ```
 
 ## Idioms
