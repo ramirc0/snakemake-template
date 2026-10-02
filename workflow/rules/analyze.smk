@@ -18,8 +18,8 @@ rule analyze:
         f"{LOGDIR}/analyze/{{sample}}.txt",
     benchmark:
         f"{BENCHDIR}/analyze/{{sample}}.tsv",
-    conda:
-        CONDA_ENV
+    software:
+        SOFTWARE_ENV
     shell:
         r"""
         exec &> >(tee {log:q})

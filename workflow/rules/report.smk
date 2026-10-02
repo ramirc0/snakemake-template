@@ -16,8 +16,8 @@ rule summary:
         f"{LOGDIR}/summary.txt",
     benchmark:
         f"{BENCHDIR}/summary.tsv",
-    conda:
-        CONDA_ENV
+    software:
+        SOFTWARE_ENV
     shell:
         r"""
         exec &> >(tee {log:q})

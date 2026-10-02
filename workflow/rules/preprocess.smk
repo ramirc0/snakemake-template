@@ -1,4 +1,4 @@
-# Shell-rule stubs. Each shows the directive set: conda, tee log, benchmark, :q.
+# Shell-rule stubs. Each shows the directive set: software, tee log, benchmark, :q.
 
 
 # Run-independent resource: built once under results/refs/, reused across runs.
@@ -11,8 +11,8 @@ rule reference:
         f"{LOGDIR}/reference.txt",
     benchmark:
         f"{BENCHDIR}/reference.tsv",
-    conda:
-        CONDA_ENV
+    software:
+        SOFTWARE_ENV
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -31,8 +31,8 @@ rule prepare:
         f"{LOGDIR}/prepare/{{sample}}.txt",
     benchmark:
         f"{BENCHDIR}/prepare/{{sample}}.tsv",
-    conda:
-        CONDA_ENV
+    software:
+        SOFTWARE_ENV
     shell:
         r"""
         exec &> >(tee {log:q})

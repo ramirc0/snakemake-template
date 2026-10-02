@@ -1,6 +1,6 @@
 samples: config/samples.tsv
 outdir: results
-conda_env: workflow/envs/env.yaml
+pixi_env: default
 run_id: default          # outputs go under results/<run_id>/; override per run
 
 references:
