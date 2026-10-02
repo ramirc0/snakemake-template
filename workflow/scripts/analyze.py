@@ -14,7 +14,9 @@ def build_parser():
     p = argparse.ArgumentParser(description="Compute per-sample metrics.")
     p.add_argument("-i", "--input", required=True, help="Prepared input TSV.")
     p.add_argument("-o", "--output", required=True, help="Metrics TSV to write.")
-    p.add_argument("--plot", required=True, help="Per-sample curve SVG to write.")
+    p.add_argument(
+        "--plot", required=True, help="Per-sample curve SVG to write (PNG beside it)."
+    )
     p.add_argument("--sample", required=True, help="Sample id (used as plot title).")
     p.add_argument("--window", type=int, default=100, help="Smoothing window.")
     p.add_argument("--threshold", type=float, default=0.5, help="Call threshold.")
@@ -53,7 +55,7 @@ def main(argv=None):
 
 
 def _plot_curve(values, sample, path):
-    from _style import apply_style
+    from _style import apply_style, despine, save_figure
 
     apply_style()
     import matplotlib.pyplot as plt
@@ -61,7 +63,8 @@ def _plot_curve(values, sample, path):
     fig, ax = plt.subplots(figsize=(4, 3))
     ax.plot(range(values.len()), values.to_list())
     ax.set(xlabel="rank", ylabel="value", title=sample)
-    fig.savefig(path)
+    despine(ax)
+    save_figure(fig, path)
     plt.close(fig)
 
 

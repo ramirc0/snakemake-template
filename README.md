@@ -38,8 +38,10 @@ pixi.toml                launcher env
 - **Config -> flags**: rules stay declarative; helpers like `analyze_flags()`
   turn `config` into a script flag string.
 - **Every rule** carries `log:`, `benchmark:`, and `software:`.
-- **Scripts** expose `build_parser()` so defaults are introspectable; plots call
-  `_style.apply_style()` and are wrapped in `report()`.
+- **Scripts** expose `build_parser()` so defaults are introspectable.
+- **Plots** use `_style.py`: `apply_style()` before importing pyplot, `despine()`
+  on every axes, `save_figure()` for the SVG + PNG pair. Rules declare both
+  files and wrap the SVG in `report()`.
 
 ## Conventions
 

@@ -12,6 +12,7 @@ rule summary:
             category="Summary",
             labels={"plot": "distribution"},
         ),
+        plot_png=f"{OUTDIR}/report/summary.png",
     log:
         f"{LOGDIR}/summary.txt",
     benchmark:

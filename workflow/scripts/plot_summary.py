@@ -15,7 +15,9 @@ def build_parser():
         required=True,
         help="Per-sample metrics TSVs.",
     )
-    p.add_argument("-o", "--output", required=True, help="Summary SVG to write.")
+    p.add_argument(
+        "-o", "--output", required=True, help="Summary SVG to write (PNG beside it)."
+    )
     return p
 
 
@@ -26,7 +28,7 @@ def main(argv=None):
     table = pl.concat([pl.read_csv(f, separator="\t") for f in args.input])
     metrics = table["metric"].unique().sort().to_list()
 
-    from _style import apply_style
+    from _style import apply_style, despine, save_figure
 
     apply_style()
     import matplotlib.pyplot as plt
@@ -38,8 +40,9 @@ def main(argv=None):
         vals = table.filter(pl.col("metric") == metric)["value"].to_list()
         ax.boxplot(vals)
         ax.set(title=metric, ylabel="value", xticks=[])
+        despine(ax, categorical_x=True)
     fig.suptitle("Metric distribution across samples")
-    fig.savefig(args.output)
+    save_figure(fig, args.output)
     plt.close(fig)
 
 

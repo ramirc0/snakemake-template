@@ -12,6 +12,7 @@ rule analyze:
             category="Per-sample curves",
             labels={"sample": "{sample}"},
         ),
+        curve_png=f"{OUTDIR}/{{sample}}/{{sample}}.curve.png",
     params:
         flags=lambda w: analyze_flags(),
     log:
