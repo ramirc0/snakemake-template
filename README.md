@@ -20,10 +20,11 @@ workflow/
     report.smk           run-level aggregation
   scripts/               argparse scripts, each with build_parser() + main()
     _style.py            shared matplotlib style
-  envs/env.yaml          conda env
+  envs/pixi.toml         rule env (pixi workspace)
 profiles/
   local/config.yaml      local execution
   slurm/config.yaml      SLURM (per-rule resources, retried with more memory)
+pixi.toml                launcher env
 ```
 
 ## Idioms
@@ -36,7 +37,7 @@ profiles/
   looked up with `_column()` (empty cell -> `None`).
 - **Config -> flags**: rules stay declarative; helpers like `analyze_flags()`
   turn `config` into a script flag string.
-- **Every rule** carries `log:`, `benchmark:`, and `conda:`.
+- **Every rule** carries `log:`, `benchmark:`, and `software:`.
 - **Scripts** expose `build_parser()` so defaults are introspectable; plots call
   `_style.apply_style()` and are wrapped in `report()`.
 
@@ -65,6 +66,7 @@ Follow the [Nextstrain Snakemake style guide][style-guide] and
 ```bash
 cp config/config.yaml.template config/config.yaml  # then edit
 cp config/samples.example.tsv config/samples.tsv   # then edit
+pixi shell                                         # launcher env
 snakemake --profile profiles/local                 # local
 snakemake --profile profiles/slurm                 # SLURM
 snakemake -n -p --profile profiles/local           # dry run
@@ -73,3 +75,15 @@ snakemake --report report.html                     # collect report() outputs
 
 Tune `set-resources` in the profiles from the `benchmarks/<run_id>/` TSVs after
 a first run.
+
+## Environment
+
+The launcher env (`pixi.toml` at the root) has Snakemake main, the pixi
+software-deployment plugin and the SLURM executor plugins. The rule env is a
+second pixi workspace, `workflow/envs/`. Its `pixi.lock` pins every package.
+pixi must be on `PATH`. Jobs install the env on first use.
+
+Add a dependency with `pixi add <pkg>` in `workflow/envs/`. After a hand edit,
+run `pixi lock` there (rules use `locked=True`). Any change to the manifest or
+lock reruns every rule. So does moving the workdir, because the env hash
+includes the workspace's absolute path.
