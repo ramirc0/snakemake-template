@@ -9,7 +9,10 @@ def build_parser():
     """Return the argument parser for plot_summary.py."""
     p = argparse.ArgumentParser(description="Plot the metric distribution.")
     p.add_argument(
-        "-i", "--input", nargs="+", required=True,
+        "-i",
+        "--input",
+        nargs="+",
+        required=True,
         help="Per-sample metrics TSVs.",
     )
     p.add_argument("-o", "--output", required=True, help="Summary SVG to write.")

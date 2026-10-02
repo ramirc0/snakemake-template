@@ -19,7 +19,9 @@ def build_parser():
     p.add_argument("--window", type=int, default=100, help="Smoothing window.")
     p.add_argument("--threshold", type=float, default=0.5, help="Call threshold.")
     p.add_argument(
-        "--metric", default="mean", choices=["mean", "median"],
+        "--metric",
+        default="mean",
+        choices=["mean", "median"],
         help="Summary statistic.",
     )
     p.add_argument("--normalize", action="store_true", help="Min-max normalize.")

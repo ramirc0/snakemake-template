@@ -1,7 +1,7 @@
 """Shared matplotlib style for pipeline plots."""
 
 import matplotlib as mpl
-import matplotlib.style  # noqa: F401  (registers mpl.style)
+import matplotlib.style  # registers mpl.style
 
 
 def apply_style():
