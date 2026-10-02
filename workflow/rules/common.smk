@@ -17,7 +17,7 @@ LOGDIR = f"logs/{RUN_ID}"
 BENCHDIR = f"benchmarks/{RUN_ID}"
 REFERENCE = config["references"]["reference"]
 
-# The workspace path is relative to the rule file; every rule file sits in rules/.
+# The workspace path is relative to the rule file. Every rule file sits in rules/.
 SOFTWARE_ENV = pixi(workspace="../envs", env=config["pixi_env"], locked=True)
 
 
