@@ -24,7 +24,8 @@ workflow/
 profiles/
   local/config.yaml      local execution
   slurm/config.yaml      SLURM (per-rule resources, retried with more memory)
-pixi.toml                launcher env
+pixi.toml                launcher env + lint task
+pyproject.toml           ruff + numpydoc config
 ```
 
 ## Idioms
@@ -59,6 +60,9 @@ Follow the [Nextstrain Snakemake style guide][style-guide] and
 - Logs tee'd to file and terminal (`exec &> >(tee {log:q})`); run with
   `--show-failed-logs` (set in the profiles).
 - Every rule has a `benchmark:`; no `message:` attribute.
+- Docstrings follow numpydoc. `pixi run lint` checks the scripts with ruff
+  (pydocstyle, numpy convention) and `numpydoc lint`. Neither tool parses
+  `.smk` files. Keep the rule helpers in the same style by hand.
 
 [style-guide]: https://docs.nextstrain.org/en/latest/reference/snakemake-style-guide.html
 [best-practices]: https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html
