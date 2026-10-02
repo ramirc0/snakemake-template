@@ -34,17 +34,18 @@ def apply_style():
 def despine(ax, categorical_x=False, categorical_y=False):
     """Offset left and bottom spines by 10 pt and trim them to the end ticks.
 
-    Each continuous axis is fitted to its data without margins, then widened
-    to the nearest ticks enclosing the data, so the trimmed spine never ends
-    short of the data. When the locator has no enclosing tick (e.g. dates),
-    the data edge becomes the end tick. A categorical x or y axis (bar,
-    horizontal bar, heatmap) has no spine or tick marks; its labels carry the
-    categories.
+    Each continuous axis is fitted to its data without margins. It is then
+    widened to the nearest ticks enclosing the data. The trimmed spine
+    therefore never ends short of the data. When the locator has no
+    enclosing tick (e.g. dates), the data edge becomes the end tick. A
+    categorical x or y axis (bar, horizontal bar, heatmap) has no spine or
+    tick marks. Its labels carry the categories.
 
     Data at the limits sits on the axes edge, where matplotlib would clip half
     of each marker and line width. When both axes are fitted to the data, the
-    plotted artists are unclipped so they draw whole into the spine offset.
-    Explicit limits set by the caller keep clipping on.
+    plotted artists are unclipped. They then draw whole into the spine
+    offset. Lines without data stay clipped. Explicit limits set by the
+    caller keep clipping on.
 
     Parameters
     ----------
@@ -68,7 +69,8 @@ def despine(ax, categorical_x=False, categorical_y=False):
         axes.append((ax.xaxis, ax.get_xlim, ax.set_xlim, "bottom"))
     for axis, get_lim, set_lim, spine in axes:
         lo, hi = sorted(get_lim())
-        # Calling the locator reads the view limits itself; date locators reject raw floats.
+        # Calling the locator reads the view limits itself. Date locators reject
+        # raw floats.
         ticks = axis.get_major_locator()()
         # lo and hi become the enclosing ticks, or stay at the data edges when
         # the locator has none (e.g. dates).
@@ -92,12 +94,12 @@ def despine(ax, categorical_x=False, categorical_y=False):
 def label_points(ax, points, labels, **kwargs):
     """Label the markers of scatter `points` so no label overlaps another or a marker.
 
-    `points` is the collection `ax.scatter` returns. Each label starts at its
-    marker; adjustText then moves labels off each other and off the markers'
-    full extent, with a gap between labels, and draws a grey leader line back
-    to the marker. Call last on the figure, after `despine()` and every
-    title, label and legend: labels are placed in the figure's final layout,
-    and anything added later reshapes the axes and moves them.
+    Each label starts at its marker. adjustText then moves labels off each
+    other and off the markers' full extent, with a gap between labels. It
+    draws a grey leader line back to each marker. Call last on the figure,
+    after `despine()` and every title, label and legend. Labels are placed in
+    the figure's final layout. Anything added later reshapes the axes and
+    moves them.
 
     Parameters
     ----------
@@ -118,8 +120,8 @@ def label_points(ax, points, labels, **kwargs):
     import numpy as np
     from adjustText import adjust_text
 
-    # adjustText measures steps in pixels with screen-sized defaults; convert from points
-    # so a 300 dpi figure does not pull labels back onto their markers.
+    # adjustText measures steps in pixels with screen-sized defaults. Convert them from
+    # points so a 300 dpi figure does not pull labels back onto their markers.
     px = ax.figure.dpi / 72
     clear = (np.sqrt(points.get_sizes().max()) / 2 + 2) * px
     texts = [
