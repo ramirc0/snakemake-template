@@ -45,6 +45,15 @@ def despine(ax, categorical_x=False, categorical_y=False):
     of each marker and line width. When both axes are fitted to the data, the
     plotted artists are unclipped so they draw whole into the spine offset.
     Explicit limits set by the caller keep clipping on.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        Axes to despine, after everything is drawn on it.
+    categorical_x : bool, default False
+        Treat the x axis as categorical.
+    categorical_y : bool, default False
+        Treat the y axis as categorical.
     """
     import seaborn as sns
 
@@ -88,8 +97,23 @@ def label_points(ax, points, labels, **kwargs):
     full extent, with a gap between labels, and draws a grey leader line back
     to the marker. Call last on the figure, after `despine()` and every
     title, label and legend: labels are placed in the figure's final layout,
-    and anything added later reshapes the axes and moves them. `kwargs` go
-    to `ax.text`. Returns the text artists.
+    and anything added later reshapes the axes and moves them.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        Axes holding the scatter.
+    points : matplotlib.collections.PathCollection
+        Collection returned by `ax.scatter`.
+    labels : sequence of str
+        One label per point, in point order.
+    **kwargs
+        Passed to `ax.text`.
+
+    Returns
+    -------
+    list of matplotlib.text.Text
+        The label artists.
     """
     import numpy as np
     from adjustText import adjust_text
@@ -121,8 +145,21 @@ def save_figure(fig, path, **kwargs):
 
     A `.svg` or `.png` extension on `path` is dropped. Each format's extension
     is then appended. A dotted stem therefore keeps its dots: `x.curve.svg`
-    and `x.curve` both give `x.curve.svg` and `x.curve.png`. Returns the list
-    of paths written.
+    and `x.curve` both give `x.curve.svg` and `x.curve.png`.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure to save.
+    path : str or pathlib.Path
+        Output path, with or without a `.svg` or `.png` extension.
+    **kwargs
+        Passed to `Figure.savefig`.
+
+    Returns
+    -------
+    list of pathlib.Path
+        The SVG and PNG paths written.
     """
     path = Path(path)
     stem = path.with_suffix("") if path.suffix[1:].lower() in FORMATS else path

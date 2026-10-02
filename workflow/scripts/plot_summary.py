@@ -6,7 +6,13 @@ import polars as pl
 
 
 def build_parser():
-    """Return the argument parser for plot_summary.py."""
+    """Build the plot_summary.py command-line parser.
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        Parser for the plot_summary.py flags.
+    """
     p = argparse.ArgumentParser(description="Plot the metric distribution.")
     p.add_argument(
         "-i",
@@ -22,7 +28,13 @@ def build_parser():
 
 
 def main(argv=None):
-    """Concatenate the metrics tables and plot one distribution per metric."""
+    """Concatenate the metrics tables and plot one distribution per metric.
+
+    Parameters
+    ----------
+    argv : list of str, optional
+        Command-line arguments. Defaults to `sys.argv[1:]`.
+    """
     args = build_parser().parse_args(argv)
 
     table = pl.concat([pl.read_csv(f, separator="\t") for f in args.input])

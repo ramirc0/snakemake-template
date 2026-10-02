@@ -10,7 +10,13 @@ import polars as pl
 
 
 def build_parser():
-    """Return the argument parser for analyze.py."""
+    """Build the analyze.py command-line parser.
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        Parser for the analyze.py flags.
+    """
     p = argparse.ArgumentParser(description="Compute per-sample metrics.")
     p.add_argument("-i", "--input", required=True, help="Prepared input TSV.")
     p.add_argument("-o", "--output", required=True, help="Metrics TSV to write.")
@@ -32,7 +38,13 @@ def build_parser():
 
 
 def main(argv=None):
-    """Read the input value column, compute metrics, write the table + plot."""
+    """Read the input value column, compute metrics, write the table + plot.
+
+    Parameters
+    ----------
+    argv : list of str, optional
+        Command-line arguments. Defaults to `sys.argv[1:]`.
+    """
     args = build_parser().parse_args(argv)
 
     values = pl.read_csv(args.input, separator="\t")["value"]
@@ -55,6 +67,17 @@ def main(argv=None):
 
 
 def _plot_curve(values, sample, path):
+    """Plot sorted values against their rank.
+
+    Parameters
+    ----------
+    values : polars.Series
+        Values in ascending order.
+    sample : str
+        Sample ID, used as the title.
+    path : str
+        Curve SVG to write. The PNG goes beside it.
+    """
     from _style import apply_style, despine, save_figure
 
     apply_style()

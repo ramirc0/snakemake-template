@@ -33,7 +33,19 @@ _manifest = pl.read_csv(_SHEET, separator="\t", infer_schema_length=0, comment_p
 
 
 def _column(name):
-    """sample_id -> value for `name`, empty string treated as None."""
+    """Map each sample to its value in sheet column `name`.
+
+    Parameters
+    ----------
+    name : str
+        Sample sheet column.
+
+    Returns
+    -------
+    dict of str to str or None
+        Value per `sample_id`, with empty cells as None. Empty when the sheet
+        has no such column.
+    """
     if name not in _manifest.columns:
         return {}
     return {
@@ -55,12 +67,29 @@ wildcard_constraints:
 
 
 def prefix(sample):
-    """Canonical output prefix: results/<run_id>/<sample>/<sample>."""
+    """Return the output prefix of a sample.
+
+    Parameters
+    ----------
+    sample : str
+        Sample ID from the sheet.
+
+    Returns
+    -------
+    str
+        Path `<outdir>/<run_id>/<sample>/<sample>`.
+    """
     return f"{OUTDIR}/{sample}/{sample}"
 
 
 def analyze_flags():
-    """config['analyze'] -> analyze.py flag list (interpolate with :q)."""
+    """Return the analyze.py flag tokens from `config["analyze"]`.
+
+    Returns
+    -------
+    list of str
+        Flag tokens. Interpolate them with `:q`.
+    """
     a = config["analyze"]
     flags = [
         "--window", str(a["window"]),
