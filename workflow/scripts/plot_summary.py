@@ -2,6 +2,8 @@
 
 import argparse
 
+import matplotlib.pyplot as plt
+import poikilos as pk
 import polars as pl
 
 
@@ -40,11 +42,7 @@ def main(argv=None):
     table = pl.concat([pl.read_csv(f, separator="\t") for f in args.input])
     metrics = table["metric"].unique().sort().to_list()
 
-    from _style import apply_style, despine, save_figure
-
-    apply_style()
-    import matplotlib.pyplot as plt
-
+    pk.use("plain")
     fig, axes = plt.subplots(
         1, len(metrics), figsize=(3 * len(metrics), 3), squeeze=False
     )
@@ -52,9 +50,9 @@ def main(argv=None):
         vals = table.filter(pl.col("metric") == metric)["value"].to_list()
         ax.boxplot(vals)
         ax.set(title=metric, ylabel="value", xticks=[])
-        despine(ax, categorical_x=True)
+        pk.despine(ax, categorical_x=True)
     fig.suptitle("Metric distribution across samples")
-    save_figure(fig, args.output)
+    pk.save_figure(fig, args.output)
     plt.close(fig)
 
 

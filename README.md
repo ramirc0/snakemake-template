@@ -19,7 +19,6 @@ workflow/
     analyze.smk          main per-sample compute (flag-driven script)
     report.smk           run-level aggregation
   scripts/               argparse scripts, each with build_parser() + main()
-    _style.py            shared matplotlib style
   envs/pixi.toml         rule env (pixi workspace)
 profiles/
   local/config.yaml      local execution
@@ -40,9 +39,10 @@ pyproject.toml           ruff + numpydoc config
   turn `config` into a script flag string.
 - **Every rule** carries `log:`, `benchmark:`, and `software:`.
 - **Scripts** expose `build_parser()` so defaults are introspectable.
-- **Plots** use `_style.py`: `apply_style()` before importing pyplot, `despine()`
-  on every axes, `save_figure()` for the SVG + PNG pair. Rules declare both
-  files and wrap the SVG in `report()`.
+- **Plots** use [poikilos](https://github.com/ramirc0/poikilos) with the
+  `plain` theme: `pk.use("plain")` before drawing, `pk.despine()` on every axes,
+  `pk.save_figure()` for the SVG + PNG pair. Rules declare both files and wrap
+  the SVG in `report()`.
 
 ## Conventions
 

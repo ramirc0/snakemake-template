@@ -6,6 +6,8 @@ Example script. Keep the shape: a `build_parser()` returning the parser and a
 
 import argparse
 
+import matplotlib.pyplot as plt
+import poikilos as pk
 import polars as pl
 
 
@@ -78,16 +80,12 @@ def _plot_curve(values, sample, path):
     path : str
         Curve SVG to write. The PNG goes beside it.
     """
-    from _style import apply_style, despine, save_figure
-
-    apply_style()
-    import matplotlib.pyplot as plt
-
+    pk.use("plain")
     fig, ax = plt.subplots(figsize=(4, 3))
     ax.plot(range(values.len()), values.to_list())
     ax.set(xlabel="rank", ylabel="value", title=sample)
-    despine(ax)
-    save_figure(fig, path)
+    pk.despine(ax)
+    pk.save_figure(fig, path)
     plt.close(fig)
 
 
