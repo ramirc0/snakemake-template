@@ -1,4 +1,4 @@
-# Script-rule stub. Shows: config mapped via params (:q list), report() output.
+# Script-rule stub. Shows: config mapped via params (:q list).
 
 
 rule analyze:
@@ -7,11 +7,7 @@ rule analyze:
         index=f"{REFDIR}/reference.index",
     output:
         metrics=f"{OUTDIR}/{{sample}}/{{sample}}.metrics.tsv",
-        curve=report(
-            f"{OUTDIR}/{{sample}}/{{sample}}.curve.svg",
-            category="Per-sample curves",
-            labels={"sample": "{sample}"},
-        ),
+        curve=f"{OUTDIR}/{{sample}}/{{sample}}.curve.svg",
         curve_png=f"{OUTDIR}/{{sample}}/{{sample}}.curve.png",
     params:
         flags=lambda w: analyze_flags(),

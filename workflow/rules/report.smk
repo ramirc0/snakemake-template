@@ -1,4 +1,4 @@
-# Aggregation stub. Shows: expand() fan-in over SAMPLES, report() output.
+# Aggregation stub. Shows: expand() fan-in over SAMPLES.
 
 
 rule summary:
@@ -7,11 +7,7 @@ rule summary:
             f"{OUTDIR}/{{sample}}/{{sample}}.metrics.tsv", sample=SAMPLES
         ),
     output:
-        plot=report(
-            f"{OUTDIR}/report/summary.svg",
-            category="Summary",
-            labels={"plot": "distribution"},
-        ),
+        plot=f"{OUTDIR}/report/summary.svg",
         plot_png=f"{OUTDIR}/report/summary.png",
     log:
         f"{LOGDIR}/summary.txt",

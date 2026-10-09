@@ -41,8 +41,7 @@ pyproject.toml           ruff + numpydoc config
 - **Scripts** expose `build_parser()` so defaults are introspectable.
 - **Plots** use [poikilos](https://github.com/ramirc0/poikilos) with the
   `plain` theme: `pk.use("plain")` before drawing, `pk.despine()` on every axes,
-  `pk.save_figure()` for the SVG + PNG pair. Rules declare both files and wrap
-  the SVG in `report()`.
+  `pk.save_figure()` for the SVG + PNG pair. Rules declare both files.
 
 ## Conventions
 
@@ -76,7 +75,6 @@ pixi shell                                         # launcher env
 snakemake --profile profiles/local                 # local
 snakemake --profile profiles/slurm                 # SLURM
 snakemake -n -p --profile profiles/local           # dry run
-snakemake --report report.html                     # collect report() outputs
 ```
 
 Tune `set-resources` in the profiles from the `benchmarks/<run_id>/` TSVs after
