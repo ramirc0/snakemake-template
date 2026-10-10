@@ -19,7 +19,7 @@ rule summary:
         r"""
         exec &> >(tee {log:q})
 
-        python workflow/scripts/plot_summary.py \
+        python {workflow.basedir:q}/scripts/plot_summary.py \
             --input {input.metrics:q} \
             --output {output.plot:q}
         """

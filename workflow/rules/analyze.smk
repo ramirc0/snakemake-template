@@ -21,7 +21,7 @@ rule analyze:
         r"""
         exec &> >(tee {log:q})
 
-        python workflow/scripts/analyze.py \
+        python {workflow.basedir:q}/scripts/analyze.py \
             --input {input.data:q} \
             --output {output.metrics:q} \
             --plot {output.curve:q} \
