@@ -7,6 +7,7 @@ README.md holds the layout, idioms, and style conventions. Follow it.
 
 ```bash
 pixi run lint                                # ruff check, ruff format --check, numpydoc lint
+pixi run test                                # full run in .tests/integration
 pixi run snakemake -n -p --profile profiles/local
 pixi run snakemake --profile profiles/local --cores 2
 ```
@@ -22,6 +23,7 @@ pixi run snakemake --profile profiles/local --cores 2
 
 ## Gotchas
 
+- Shell blocks MUST call scripts as `{workflow.basedir:q}/scripts/x.py`. A cwd-relative path breaks `--directory`.
 - `.smk` files are not linted. Keep helper docstrings numpydoc by hand.
 - Plots use poikilos `plain`. `pk.save_figure()` writes SVG and PNG. Rules MUST declare both outputs.
 - `MPLBACKEND=Agg` is set in the rule env activation. Scripts rely on it.
@@ -31,9 +33,5 @@ pixi run snakemake --profile profiles/local --cores 2
 
 ## Verifying a change
 
-No test suite. Run the workflow end to end on throwaway inputs:
-
-1. Copy `config/config.yaml.template` to `config/config.yaml` and `config/samples.example.tsv` to `config/samples.tsv`.
-2. Create `resources/reference.txt` and `resources/sample_{a,b,c}.tsv`, each sample with a `value` column.
-3. Run the workflow with the local profile.
-4. Delete the inputs, `results/`, `logs/`, and `benchmarks/`. All are gitignored.
+`pixi run test` runs every rule on the toy data in `.tests/integration/`.
+New rules or inputs MUST get matching test inputs there.

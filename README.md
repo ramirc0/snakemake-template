@@ -8,6 +8,7 @@ example wires `reference` + `prepare -> analyze -> summary` over a sample sheet.
 ## Layout
 
 ```
+.tests/integration/      config + toy inputs for the end-to-end test
 config/
   config.yaml.template   parameters + paths; copy to config.yaml (gitignored)
   samples.example.tsv    one row per sample: sample_id, input, [label]
@@ -23,7 +24,7 @@ workflow/
 profiles/
   local/config.yaml      local execution
   slurm/config.yaml      SLURM (per-rule resources, retried with more memory)
-pixi.toml                launcher env + lint task
+pixi.toml                launcher env + test and lint tasks
 pyproject.toml           ruff + numpydoc config
 ```
 
@@ -59,6 +60,8 @@ Follow the [Nextstrain Snakemake style guide][style-guide] and
 - Logs tee'd to file and terminal (`exec &> >(tee {log:q})`); run with
   `--show-failed-logs` (set in the profiles).
 - Every rule has a `benchmark:`; no `message:` attribute.
+- Scripts are called as `{workflow.basedir:q}/scripts/x.py` so the workflow
+  runs from any `--directory`.
 - Docstrings follow numpydoc. `pixi run lint` checks the scripts with ruff
   (pydocstyle, numpy convention) and `numpydoc lint`. Neither tool parses
   `.smk` files. Keep the rule helpers in the same style by hand.
@@ -75,6 +78,7 @@ pixi shell                                         # launcher env
 snakemake --profile profiles/local                 # local
 snakemake --profile profiles/slurm                 # SLURM
 snakemake -n -p --profile profiles/local           # dry run
+pixi run test                                      # end-to-end test
 ```
 
 Tune `set-resources` in the profiles from the `benchmarks/<run_id>/` TSVs after
