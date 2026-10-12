@@ -89,7 +89,8 @@ a first run.
 The launcher env (`pixi.toml` at the root) has Snakemake main, the pixi
 software-deployment plugin and the SLURM executor plugins. The rule env is a
 second pixi workspace, `workflow/envs/`. Its `pixi.lock` pins every package.
-pixi must be on `PATH`. Jobs install the env on first use.
+pixi must be on `PATH`. An `onstart` hook installs the env before the first
+job. Parallel SLURM jobs would otherwise race to install it.
 
 Add a dependency with `pixi add <pkg>` in `workflow/envs/`. After a hand edit,
 run `pixi lock` there (rules use `locked=True`). Any change to the manifest or

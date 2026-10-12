@@ -20,6 +20,7 @@ pixi run snakemake --profile profiles/local --cores 2
 - Rules use `locked=True`. After a manifest edit, run `pixi lock` in `workflow/envs/`.
 - Any manifest or lock change reruns every rule.
 - `SOFTWARE_ENV` resolves `../envs` relative to the rule file. New rule files MUST sit in `workflow/rules/`.
+- The `onstart` hook installs the rule env before any job, because SLURM jobs race to install it. A new rule workspace MUST be added to the hook.
 
 ## Gotchas
 
