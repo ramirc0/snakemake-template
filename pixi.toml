@@ -4,6 +4,7 @@
 name = "snakemake-template"
 channels = ["conda-forge"]
 platforms = ["linux-64"]
+exclude-newer = "7d"
 
 [dependencies]
 python = "3.13.*"
