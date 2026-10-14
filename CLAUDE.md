@@ -30,6 +30,7 @@ pixi run snakemake --profile profiles/local --cores 2
 - `MPLBACKEND=Agg` is set in the rule env activation. Scripts rely on it.
 - Resources MUST be flat values. Never derive `mem_mb` or `runtime` from input size.
 - The `* attempt` retry scaling in `profiles/slurm/config.yaml` is intentional.
+- GPU rules MUST set `gpu_slots: 1`. The global `gpu_slots` cap in the SLURM profile MUST be 2x the partition's physical GPUs.
 - Auto mode may block `pixi lock`, `pixi install`, or workflow runs that fetch the poikilos git dependency. Ask the user to run them.
 
 ## Verifying a change

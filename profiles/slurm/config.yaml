@@ -42,6 +42,13 @@ set-resources:              # tune from benchmarks/ TSVs after a real run
   #    tasks_per_gpu: 0     # suppress --ntasks-per-gpu (conflicts with cpus-per-task for pytorch)
   #    mem_mb: 48000 * attempt
   #    runtime: 1440m
+  #    gpu_slots: 1         # counts against the global cap below
+
+# GPU queue depth (uncomment with the GPU rule pattern). With jobs: unlimited,
+# every ready GPU job queues at once and blocks other users on a FIFO cluster.
+# Cap it at 2x the partition's physical GPUs, so one job waits per running one.
+# resources:
+#   gpu_slots: 72              # gpu partition: 2 x 36 V100s
 
 rerun-incomplete: true
 keep-going: true
