@@ -60,6 +60,9 @@ Follow the [Nextstrain Snakemake style guide][style-guide] and
 - Logs tee'd to file and terminal (`exec &> >(tee {log:q})`); run with
   `--show-failed-logs` (set in the profiles).
 - Every rule has a `benchmark:`; no `message:` attribute.
+- Shell blocks end with `sync {output:q}`. On a shared filesystem, Snakemake's
+  first stat of an output from the submit host otherwise waits for the
+  writing node to flush it.
 - Scripts are called as `{workflow.basedir:q}/scripts/x.py` so the workflow
   runs from any `--directory`.
 - Docstrings follow numpydoc. `pixi run lint` checks the scripts with ruff

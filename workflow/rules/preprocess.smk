@@ -18,6 +18,8 @@ rule reference:
         exec &> >(tee {log:q})
 
         wc -l {input:q} > {output:q}
+
+        sync {output:q}
         """
 
 
@@ -38,4 +40,6 @@ rule prepare:
         exec &> >(tee {log:q})
 
         cp {input:q} {output:q}
+
+        sync {output:q}
         """

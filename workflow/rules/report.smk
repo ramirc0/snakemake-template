@@ -22,4 +22,6 @@ rule summary:
         python {workflow.basedir:q}/scripts/plot_summary.py \
             --input {input.metrics:q} \
             --output {output.plot:q}
+
+        sync {output:q}
         """

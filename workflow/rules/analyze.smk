@@ -27,4 +27,6 @@ rule analyze:
             --plot {output.curve:q} \
             --sample {wildcards.sample:q} \
             {params.flags:q}
+
+        sync {output:q}
         """
