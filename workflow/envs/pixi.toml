@@ -15,3 +15,12 @@ poikilos = { git = "https://github.com/ramirc0/poikilos", extras = ["labels"] }
 # Rule jobs only save figures. Without this, a job that inherits DISPLAY picks a GUI backend.
 [activation.env]
 MPLBACKEND = "Agg"
+
+[exclude-newer]
+ca-certificates = "0d"
+certifi = "0d"
+pip = "0d"
+
+[pypi-exclude-newer]
+certifi = "0d"
+pip = "0d"
