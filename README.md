@@ -109,13 +109,18 @@ hand edit, run `pixi lock` there (rules use `locked=True`).
 ### Executing program
 
 ```bash
-pixi shell                                  # enter the launcher env
-snakemake -n -p --profile profiles/local    # dry run
-snakemake --profile profiles/local          # local
-snakemake --profile profiles/slurm          # SLURM
-pixi run test                               # end-to-end test on toy data
-pixi run lint                               # ruff + numpydoc
+pixi shell                                    # enter the launcher env
+snakemake -n -p --profile profiles/local      # dry run
+snakemake --profile profiles/local            # local
+pixi run slurm 2026-11-14-k562-atac           # SLURM
+pixi run slurm 2026-11-14-k562-atac "all -n"  # targets and flags in one quoted arg
+pixi run test                                 # end-to-end test on toy data
+pixi run lint                                 # ruff + numpydoc
 ```
+
+`pixi run slurm <run_id>` sets `run_id` and names every SLURM job
+`<run_id>_<uuid>`, so `squeue` and `sacct` show which run a job belongs to.
+The SLURM plugin keeps the UUID suffix. It finds its jobs by that shared name.
 
 After a first run, tune `set-resources` in the profiles from the
 `benchmarks/<run_id>/` TSVs.
