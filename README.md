@@ -143,6 +143,10 @@ snakemake --help
 
 Christian Ramirez ([@ramirc0](https://github.com/ramirc0))
 
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
+
 ## Acknowledgments
 
 - [Nextstrain Snakemake style guide][style-guide]
