@@ -24,7 +24,7 @@ default-resources:
   slurm_account: youraccount
   slurm_partition: 12hours
   runtime: 60m
-  mem_mb: 4000
+  mem_mb: 4096
 
 set-threads:
   prepare: 1
@@ -32,10 +32,10 @@ set-threads:
 
 set-resources:              # tune from benchmarks/ TSVs after a real run
   prepare:
-    mem_mb: 2000 * attempt
+    mem_mb: 2048 * attempt
     runtime: 30m
   analyze:
-    mem_mb: 8000 * attempt
+    mem_mb: 8192 * attempt
     runtime: 120m
 
   # GPU rule pattern (uncomment + adapt for a CUDA rule):
@@ -43,7 +43,7 @@ set-resources:              # tune from benchmarks/ TSVs after a real run
   #    slurm_partition: gpu
   #    gres: gpu:1
   #    tasks_per_gpu: 0     # suppress --ntasks-per-gpu (conflicts with cpus-per-task for pytorch)
-  #    mem_mb: 48000 * attempt
+  #    mem_mb: 49152 * attempt
   #    runtime: 1440m
   #    gpu_slots: 1         # counts against the global cap below
 

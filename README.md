@@ -123,7 +123,9 @@ pixi run lint                                 # ruff + numpydoc
 The SLURM plugin keeps the UUID suffix. It finds its jobs by that shared name.
 
 After a first run, tune `set-resources` in the profiles from the
-`benchmarks/<run_id>/` TSVs.
+`benchmarks/<run_id>/` TSVs. Threads and `mem_mb` SHOULD be powers of 2,
+such as 4 threads or 8192 MB (8 GiB). If the next power of 2 wastes too much,
+use an even count instead, such as 12 threads or 49152 MB (48 GiB).
 
 ## Help
 
